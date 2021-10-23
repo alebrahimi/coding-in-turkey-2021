@@ -1,0 +1,83 @@
+<html>
+  <body>
+    <h2>Fridge Items</h2>
+    <table>
+      <thead>
+        <td>
+          <b>Item</b>
+        </td>
+        <td>
+          <b>Count</b>
+        </td>
+        <td>
+          <b>Remove</b>
+        </td>
+      </thead>
+      <tbody id="itemTable">
+        <tr id="Cucumber">
+          <td>Cucumber</td>
+          <td class="count">3</td>
+          <td><button onClick="remove(event, 'Cucumber')">X</button></td>
+        </tr>
+        <tr id="Lettuce">
+          <td>Lettuce</td>
+          <td class="count">5</td>
+          <td><button onClick="remove(event, 'Lettuce')">X</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <input id="input" type="text">
+    <button onclick="add(event)">Add</button>
+    <br />
+    <p id="errorMsg" style="color: red;"></p>
+  </body>
+  <script type="text/javascript">
+    function remove(event, id) {
+      document.querySelector(`#${id}`).style.display = "none"
+    }
+    function add(event) {
+      item = document.querySelector("#input").value.split(" ")
+
+      if( item.length != 2 || !Number.isInteger(parseInt(item[1])) || Number.isInteger(parseInt(item[0][0])) ){
+        document.querySelector("#errorMsg").innerHTML = "please enter a valid item"
+        return
+      }else{
+        document.querySelector("#errorMsg").innerHTML = ""
+      }
+
+      i = item[0]
+      c = parseInt(item[1])
+
+      r = document.querySelector(`#${i}`)
+
+      if(r){
+        r.querySelector(".count").innerHTML = parseInt(r.querySelector(".count").innerHTML) + c
+        r.style.display = "table-row"
+      }
+      else{
+        html = `
+        <tr id="${i}">
+          <td>${i}</td>
+          <td class="count">${c}</td>
+          <td><button onClick="remove(event, '${i}')">X</button></td>
+        </tr>
+        `
+
+        row = document.createElement('tr')
+        row.id = i
+        row.innerHTML = html
+
+        document.querySelector('#itemTable').appendChild(row)
+      }
+
+      document.querySelector("#input").value = ""
+      
+    }
+  </script>
+  <style>
+    td {
+      padding-right: 50px;
+    }
+  </style>
+</html>
